@@ -1,24 +1,30 @@
 class Api::V1::ClaimsController < ApplicationController
   before_action :authorize_admin,only: [:destroy]
-  before_action :agent_admin,only: [:create]
+  before_action :authorize_agent,only: [:create]
 
-  # POST api/v1/claim
+  # POST /api/v1/tickets/:ticket_id/claim
   def create
 
     if @current_user.agent?
-        @ticket = Ticket.find(params[:ticket_id])
+      @ticket = Ticket.find(params[:ticket_id])
+      is_claimed = @current_user.claims.exists?(claimed_ticket:@ticket)
+      if !is_claimed 
+        
         @ticket.agents << @current_user
         @ticket.update(status:'working')
         response = { message: 'Ticket successfully claimed!'}
         render json: response
-     
+      else
+          response = { message: 'Ticket already claimed! by User'}
+          render json: response
+      end
     else
       render json: @ticket.errors, status: :unprocessable_entity
     end
   end
 
 
-  # DELETE api/v1/unclaim
+  # DELETE /api/v1/tickets/:ticket_id/unclaim
   def destroy
     @ticket = Ticket.find(params[:ticket_id])
     @user = @ticket.agents
@@ -34,7 +40,7 @@ class Api::V1::ClaimsController < ApplicationController
       response = { message: 'Only Admin can have access!'}
       render json: response
     end
-    def agent_admin
+    def authorize_agent
       return unless !@current_user.agent?
       response = { message: 'Only Agent can have access!'}
       render json: response

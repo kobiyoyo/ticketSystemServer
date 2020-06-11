@@ -5,7 +5,14 @@ Rails.application.routes.draw do
 	    namespace :v1 do
 	    	resources :departments
 	    	resources :users
+	    	
+	    	get 'tickets/closed', to:'tickets#closed'
+	    	get 'tickets/resolved', to:'tickets#resolved'
+	    	get 'tickets/working', to:'tickets#working'
+	    	get 'tickets/rejected', to:'tickets#rejected'
+	    	get 'tickets/ticket_per_month', to:'tickets#closed_ticket_per_month'
     		resources :tickets do
+
     			resources :comments
     			post :claim, to:'claims#create'
     			delete :unclaim, to:'claims#destroy'

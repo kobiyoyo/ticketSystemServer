@@ -6,6 +6,7 @@ class CreateTickets < ActiveRecord::Migration[6.0]
       t.string :subject
       t.datetime :started_at
       t.datetime :resolved_at
+      t.datetime :closed_at
       t.integer :status, null: false
       t.integer :priority,  null: false
       t.references :user, null: false, foreign_key: true

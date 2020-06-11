@@ -46,6 +46,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_010806) do
     t.string "subject"
     t.datetime "started_at"
     t.datetime "resolved_at"
+    t.datetime "closed_at"
     t.integer "status", null: false
     t.integer "priority", null: false
     t.bigint "user_id", null: false

@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
   
   # GET api/v1/users
   def index
-    @users = User.all
+    @users = User.all.order('created_at DESC')
 
     render json: @users
   end
@@ -83,7 +83,7 @@ class Api::V1::UsersController < ApplicationController
        # authorize admin
     def authorize_admin
       return unless !@current_user.admin?
-      response = { message: 'Only Admin can have access!'}
+      response = { message: 'Only Admins can have access!'}
       render json: response
     end
 end

@@ -5,16 +5,14 @@ class Ticket < ApplicationRecord
 
   enum priority: PRIORITIES
   enum status: STATUSES
-
-
-
   belongs_to :department
   belongs_to :user
   has_many :comments
-
   has_many :claims,foreign_key: :claimed_ticket_id
   has_many :agents,through: :claims,source: :agent
-
+  validates :message,presence: true
+  validates :subject,presence: true
+  
    def assign_defaults
   	#set priority to low if blank
     if priority.blank?
@@ -31,6 +29,10 @@ class Ticket < ApplicationRecord
     #update resolved at to current time 
     if status_changed? && status == 'resolved'
       self.resolved_at = Time.zone.now
+    end
+    #update resolved at to current time 
+    if status_changed? && status == 'closed'
+      self.closed_at = Time.zone.now
     end
   end
 end

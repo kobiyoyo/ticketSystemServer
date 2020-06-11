@@ -1,9 +1,13 @@
 class Api::V1::DepartmentsController < ApplicationController
   before_action :set_department, only: [:show, :update, :destroy]
-  before_action :authorize_admin,only: [:create,:destroy]
+  before_action :authorize_admin,only: [:create,:destroy,:index,:show,:update]
+ 
+
+
+ 
   # GET api/v1/departments
   def index
-    @departments = Department.all
+    @departments = Department.all.order('created_at DESC')
 
     render json: @departments
   end
@@ -56,4 +60,5 @@ class Api::V1::DepartmentsController < ApplicationController
       response = { message: 'Only Admin can have access!'}
       render json: response
     end
+
 end
