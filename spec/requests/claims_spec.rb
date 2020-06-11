@@ -17,7 +17,7 @@ RSpec.describe "/claims", type: :request do
   # Claim. As you add validations to Claim, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    FactoryBot.create(:claim) 
   }
 
   let(:invalid_attributes) {
@@ -32,28 +32,13 @@ RSpec.describe "/claims", type: :request do
     {}
   }
 
-  describe "GET /index" do
-    it "renders a successful response" do
-      Claim.create! valid_attributes
-      get claims_url, headers: valid_headers, as: :json
-      expect(response).to be_successful
-    end
-  end
-
-  describe "GET /show" do
-    it "renders a successful response" do
-      claim = Claim.create! valid_attributes
-      get claim_url(claim), as: :json
-      expect(response).to be_successful
-    end
-  end
 
   describe "POST /create" do
     context "with valid parameters" do
       it "creates a new Claim" do
         expect {
-          post claims_url,
-               params: { claim: valid_attributes }, headers: valid_headers, as: :json
+          post 'api/v1/tickets/1/claim',
+               params: { claim: valid_attributes }, as: :json
         }.to change(Claim, :count).by(1)
       end
 
@@ -82,45 +67,11 @@ RSpec.describe "/claims", type: :request do
     end
   end
 
-  describe "PATCH /update" do
-    context "with valid parameters" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested claim" do
-        claim = Claim.create! valid_attributes
-        patch claim_url(claim),
-              params: { claim: invalid_attributes }, headers: valid_headers, as: :json
-        claim.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "renders a JSON response with the claim" do
-        claim = Claim.create! valid_attributes
-        patch claim_url(claim),
-              params: { claim: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-
-    context "with invalid parameters" do
-      it "renders a JSON response with errors for the claim" do
-        claim = Claim.create! valid_attributes
-        patch claim_url(claim),
-              params: { claim: invalid_attributes }, headers: valid_headers, as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq("application/json")
-      end
-    end
-  end
-
   describe "DELETE /destroy" do
     it "destroys the requested claim" do
-      claim = Claim.create! valid_attributes
+   
       expect {
-        delete claim_url(claim), headers: valid_headers, as: :json
+        delete claim_url(valid_attributes), headers: valid_headers, as: :json
       }.to change(Claim, :count).by(-1)
     end
   end
