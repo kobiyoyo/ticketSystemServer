@@ -32,17 +32,27 @@ module TicketAppServer
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
-    config.api_only = true
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource(
-          '*',
-          headers: :any,
-          expose: ["Authorization"],
-          methods: [:get, :patch, :put, :delete, :post, :options,               :show]
-        )
-      end
-   end
+    config.api_only = true 
+     #cors configuration
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins 'http://localhost:8000'
+    #     resource '*', :headers => :any, :methods => [:get, :post, :options],
+    #     credentials: true
+    #   end
+    # end
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins 'http://localhost:3000'
+    #     resource '*', :headers => :any, :methods => [:get, :post, :options],
+    #     credentials: true
+    #   end
+    # end
+    #autoloads lib folder during production
+    config.eager_load_paths << Rails.root.join('lib')
+
+    #autoloads lib folder during development
+    config.autoload_paths << Rails.root.join('lib')
+
   end
 end
