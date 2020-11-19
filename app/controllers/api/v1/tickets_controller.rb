@@ -1,7 +1,7 @@
 class Api::V1::TicketsController < ApplicationController
   before_action :set_ticket, only: [:update, :destroy,:show]
   before_action :authorize_customer,only: [:create]
-  before_action :authorize_agent,only: [:update,:closed_ticket_per_month]
+  before_action :authorize_agent,only: [:update,:closed_ticket_per_month,:destroy]
   # GET api/v1/tickets
 
   def index

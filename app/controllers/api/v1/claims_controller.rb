@@ -15,7 +15,7 @@ class Api::V1::ClaimsController < ApplicationController
         response = { message: 'Ticket successfully claimed!'}
         render json: response
       else
-          response = { message: 'Ticket already claimed! by User'}
+          response = { message: 'Ticket already claimed! by an agent'}
           render json: response
       end
     else

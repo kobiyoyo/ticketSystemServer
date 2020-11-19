@@ -34,12 +34,20 @@ module TicketAppServer
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true 
      #cors configuration
-    config.middleware.insert_before 0, Rack::Cors do
-      allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :options]
-      end
-    end
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins 'http://localhost:8000'
+    #     resource '*', :headers => :any, :methods => [:get, :post, :options],
+    #     credentials: true
+    #   end
+    # end
+    # config.middleware.insert_before 0, Rack::Cors do
+    #   allow do
+    #     origins 'http://localhost:3000'
+    #     resource '*', :headers => :any, :methods => [:get, :post, :options],
+    #     credentials: true
+    #   end
+    # end
     #autoloads lib folder during production
     config.eager_load_paths << Rails.root.join('lib')
 
